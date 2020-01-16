@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "golang-action",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "golang template action",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -19,13 +19,15 @@
   },
   "keywords": [
     "actions",
-    "node",
+    "golang",
+    "go",
     "setup"
   ],
-  "author": "YourNameOrOrganization",
+  "author": "Thibault Jamet",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.0"
+    "@actions/core": "^1.2.0",
+    "@actions/exec": "^1.0.3"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
