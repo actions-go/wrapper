@@ -1,27 +1,40 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
+import {binPath, go} from '../src/go'
 import * as cp from 'child_process'
 import * as path from 'path'
+import * as fs from 'fs'
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
+const go_main = `package main
 
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
+import (
+  "os"
+  "fmt"
+)
 
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecSyncOptions = {
-    env: process.env
+func main(){
+  fmt.Println(os.Args[1:])
+}
+`
+
+test('go run', async () => {
+  fs.writeFileSync(path.join(__dirname, './main.go'), go_main)
+  try {
+    fs.mkdir(path.dirname(binPath()), 777, () => {})
+    console.log(
+      cp
+        .execSync(
+          `go build -o ${binPath()} ${path.join(__dirname, './main.go')}`
+        )
+        .toString()
+    )
+  } catch (error) {
+    console.log('failed to compile test binary, hoping it already exists')
   }
-  console.log(cp.execSync(`node ${ip}`, options).toString())
+  // Without getting stdout, the program should run properly
+  await go(['hello'])
+  const stdout: string[] = []
+  await go(
+    ['/usr/local/bin/node', '/workspace/lib/main.js', 'hello', 'world'],
+    stdout
+  )
+  expect(stdout).toEqual(['[hello world]\n'])
 })
