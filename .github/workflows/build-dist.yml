@@ -15,21 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-go@v1
-      with:
-        go-version: '1.9.3' # The Go version to download (if necessary) and use.
     - run: npm install
     - run: npm run build
     - run: npm run pack
-    - name: check modified files
-      id: updates
-      run: |
-        echo ::set-output name=formatted_files::$(git status -s -uno | wc -l)
-    - name: push changes
-      if: steps.updates.outputs.formatted_files > 0
-      run: |
-        git add dist
-        git config --global user.name "actions-go-bot"
-        git config --global user.email "actions-go@users.noreply.github.com"
-        git commit -m '[Auto] Add updated assets'
-        git push origin HEAD:refs/heads/master
+    - uses: actions-go/push@master
