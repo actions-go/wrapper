@@ -18,4 +18,6 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run pack
-    - uses: actions-go/push@master
+    - uses: actions-go/push@v1
+      with:
+        commit-message: '[Auto] update packaged index.js'
