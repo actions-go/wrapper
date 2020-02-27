@@ -6,7 +6,7 @@ on: # rebuild any branch changes
       - '**/*'
       - '!dist/**'
     branches:
-      - '*'
+      - 'master'
     tags-ignore:
       - '*'
 
@@ -21,3 +21,5 @@ jobs:
     - uses: actions-go/push@v1
       with:
         commit-message: '[Auto] update packaged index.js'
+        force: true
+        remote-ref: refs/heads/auto/build-dist
