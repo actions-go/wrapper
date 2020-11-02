@@ -5,8 +5,6 @@ on: # rebuild any branch changes
       - '*'
       - '**/*'
       - '!dist/**'
-    branches:
-      - 'master'
     tags-ignore:
       - '*'
 
@@ -18,8 +16,23 @@ jobs:
     - run: npm install
     - run: npm run build
     - run: npm run pack
-    - uses: actions-go/push@v1
+
+    - uses: actions/upload-artifact@v2
       with:
-        commit-message: '[Auto] update packaged index.js'
-        force: true
-        remote-ref: refs/heads/auto/build-dist
+        name: dist/index.js
+        path: dist/index.js
+    - uses: actions/upload-artifact@v2
+      with:
+        name: action.yml
+        path: action.yml
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo hello world
+
+    # - uses: actions-go/push@v1
+    #   if: ${{ github.ref == "refs/heads/master" }}
+    #   with:
+    #     commit-message: '[Auto] update packaged index.js'
+    #     force: true
+    #     remote-ref: refs/heads/auto/build-dist
