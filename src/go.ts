@@ -4,7 +4,7 @@ import * as os from 'os'
 
 export function binPath(): string {
   if (os.platform() === 'win32') {
-    return 'main_windows.exe'
+    return path.join(__dirname,'main_windows.exe')
   }
   return path.join(__dirname, ['main_', os.platform()].join(''))
 }
