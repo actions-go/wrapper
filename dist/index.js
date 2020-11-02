@@ -1069,7 +1069,7 @@ const path = __importStar(__webpack_require__(622));
 const os = __importStar(__webpack_require__(87));
 function binPath() {
     if (os.platform() === 'win32') {
-        return 'main_windows.exe';
+        return path.join(__dirname, 'main_windows.exe');
     }
     return path.join(__dirname, ['main_', os.platform()].join(''));
 }
