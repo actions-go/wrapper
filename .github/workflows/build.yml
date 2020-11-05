@@ -1,4 +1,4 @@
-name: "build-dist"
+name: "Build and test wrapper"
 on: # rebuild any branch changes
 
   pull_request:
