@@ -37,4 +37,4 @@ test('go run', async () => {
     stdout
   )
   expect(stdout).toEqual(['[hello world]\n'])
-})
+}, 60000)
